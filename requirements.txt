@@ -1,6 +1,7 @@
 streamlit
-pymysql
 openai
+python-dotenv
+pymysql
 pymupdf
 numpy
 tzdata
