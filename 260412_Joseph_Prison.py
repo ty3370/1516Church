@@ -39,46 +39,51 @@ def get_chatgpt_response(prompt):
 
     return answer
 
-# Streamlit 애플리케이션
-st.title("11과: 형통이란 무엇일까요?")
-st.write("형통은 어떤 상황 속에서도 하나님께서 함께하시는 것이에요.")
-st.image("https://i.imgur.com/ZuGckmT.png", use_container_width=True)
-
-st.markdown("""
-    <style>
-    div[data-testid="stBottom"] {
-        position: static !important;
-        width: 100% !important;
-        padding: 0px !important;
-    }
-    div[data-testid="stChatInput"] {
-        padding: 10px 0px !important;
-    }
-    .main .block-container {
-        padding-bottom: 2rem !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 # 대화 기록 초기화
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": initial_prompt}]
 
-st.subheader("🎤 인터뷰 내용")
+# --- 여기서부터 레이아웃 수정 부분 ---
 
-chat_container = st.container(height=300)
+col1, col2 = st.columns(2)
 
-with chat_container:
-    for m in st.session_state["messages"]:
-        if m["role"] == "system":
-            continue
-        if m["role"] == "user":
-            with st.chat_message("user", avatar="🙋‍♂️"):
-                st.markdown(m["content"])
-        elif m["role"] == "assistant":
-            with st.chat_message("assistant", avatar="👨‍🌾"):
-                st.markdown(m["content"])
+with col1:
+    st.title("11과: 형통이란 무엇일까요?")
+    st.write("형통은 어떤 상황 속에서도 하나님께서 함께하시는 것이에요.")
+    st.image("https://i.imgur.com/ZuGckmT.png", use_container_width=True)
 
-if user_input := st.chat_input("질문 내용을 입력하세요"):
-    get_chatgpt_response(user_input)
-    st.rerun()
+with col2:
+    st.subheader("🎤 인터뷰 내용")
+    
+    st.markdown("""
+        <style>
+        div[data-testid="stBottom"] {
+            position: static !important;
+            width: 100% !important;
+            padding: 0px !important;
+        }
+        div[data-testid="stChatInput"] {
+            padding: 10px 0px !important;
+        }
+        .main .block-container {
+            padding-bottom: 2rem !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    chat_container = st.container(height=300)
+
+    with chat_container:
+        for m in st.session_state["messages"]:
+            if m["role"] == "system":
+                continue
+            if m["role"] == "user":
+                with st.chat_message("user", avatar="🙋‍♂️"):
+                    st.markdown(m["content"])
+            elif m["role"] == "assistant":
+                with st.chat_message("assistant", avatar="👨‍🌾"):
+                    st.markdown(m["content"])
+
+    if user_input := st.chat_input("질문 내용을 입력하세요"):
+        get_chatgpt_response(user_input)
+        st.rerun()
