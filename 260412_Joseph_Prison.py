@@ -52,7 +52,7 @@ with col1:
     st.image("https://i.imgur.com/ZuGckmT.png", use_container_width=True)
 
 with col2:
-    st.subheader("🎤 인터뷰 내용")
+#    st.subheader("🎤 인터뷰 내용")
     
     st.markdown("""
         <style>
@@ -83,6 +83,6 @@ with col2:
                 with st.chat_message("assistant", avatar="👨‍🌾"):
                     st.markdown(m["content"])
 
-if user_input := st.chat_input("질문 내용을 입력하세요"):
+if user_input := st.chat_input("인터뷰 질문을 입력하세요"):
     get_chatgpt_response(user_input)
     st.rerun()
