@@ -4,17 +4,15 @@ import os
 from dotenv import load_dotenv
 import html
 
-# 환경 변수 로드
+st.set_page_config(layout="wide")
+
 load_dotenv()
 
-# OpenAI API 키 및 모델 설정
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 MODEL = 'gpt-4o'
 
-# OpenAI API 클라이언트 초기화
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-# 초기 프롬프트 설정
 initial_prompt = (
     "당신은 성경 등장인물 중 감옥에 갇힌 시기의 요셉입니다."
     "1516교회 주일학교의 초등학교 5학년 4반 학생들이 소그룹 활동 과정에서 당신을 인터뷰할 것입니다. 교회 이름은 1516교회, 학생 이름은 권준, 김세훈, 나이준, 박윤우 등 4명입니다."
@@ -25,7 +23,6 @@ initial_prompt = (
     "초등학생들이 이해할 수 있도록, 전체적으로 말을 간결하고 쉽게 하세요. 인터뷰하는 태도로 존대말을 사용하세요."
 )
 
-# 챗봇 응답 함수
 def get_chatgpt_response(prompt):
     st.session_state["messages"].append({"role": "user", "content": prompt})
 
@@ -39,7 +36,6 @@ def get_chatgpt_response(prompt):
 
     return answer
 
-# 대화 기록 초기화
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": initial_prompt}]
 
