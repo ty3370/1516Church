@@ -39,46 +39,60 @@ def get_chatgpt_response(prompt):
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": initial_prompt}]
 
-st.title("11과: 형통이란 무엇일까요?")
+if "page" not in st.session_state:
+    st.session_state["page"] = 1
 
-col1, col2 = st.columns(2)
+if st.session_state["page"] == 1:
+    st.title("11과: 형통이란 무엇일까요?")
+    st.video("https://www.youtube.com/watch?v=dr1zNvGqULU")
+    if st.button("다음"):
+        st.session_state["page"] = 2
+        st.rerun()
+else:
+    st.title("11과: 형통이란 무엇일까요?")
 
-with col1:
-    st.write("형통은 어떤 상황 속에서도 하나님께서 함께하시는 것이에요.")
-    st.image("https://i.imgur.com/ZuGckmT.png", use_container_width=True)
+    col1, col2 = st.columns(2)
 
-with col2:
+    with col1:
+        st.write("형통은 어떤 상황 속에서도 하나님께서 함께하시는 것이에요.")
+        st.image("https://i.imgur.com/ZuGckmT.png", use_container_width=True)
+
+    with col2:
 #    st.subheader("🎤 인터뷰 내용")
-    
-    st.markdown("""
-        <style>
-        div[data-testid="stBottom"] {
-            position: static !important;
-            width: 100% !important;
-            padding: 0px !important;
-        }
-        div[data-testid="stChatInput"] {
-            padding: 10px 0px !important;
-        }
-        .main .block-container {
-            padding-bottom: 2rem !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+        
+        st.markdown("""
+            <style>
+            div[data-testid="stBottom"] {
+                position: static !important;
+                width: 100% !important;
+                padding: 0px !important;
+            }
+            div[data-testid="stChatInput"] {
+                padding: 10px 0px !important;
+            }
+            .main .block-container {
+                padding-bottom: 2rem !important;
+            }
+            </style>
+        """, unsafe_allow_html=True)
 
-    chat_container = st.container(height=300)
+        chat_container = st.container(height=300)
 
-    with chat_container:
-        for m in st.session_state["messages"]:
-            if m["role"] == "system":
-                continue
-            if m["role"] == "user":
-                with st.chat_message("user", avatar="🙋‍♂️"):
-                    st.markdown(m["content"])
-            elif m["role"] == "assistant":
-                with st.chat_message("assistant", avatar="👨‍🌾"):
-                    st.markdown(m["content"])
+        with chat_container:
+            for m in st.session_state["messages"]:
+                if m["role"] == "system":
+                    continue
+                if m["role"] == "user":
+                    with st.chat_message("user", avatar="🙋‍♂️"):
+                        st.markdown(m["content"])
+                elif m["role"] == "assistant":
+                    with st.chat_message("assistant", avatar="👨‍🌾"):
+                        st.markdown(m["content"])
 
-if user_input := st.chat_input("인터뷰 질문을 입력하세요"):
-    get_chatgpt_response(user_input)
-    st.rerun()
+    if user_input := st.chat_input("인터뷰 질문을 입력하세요"):
+        get_chatgpt_response(user_input)
+        st.rerun()
+
+    if st.button("이전"):
+        st.session_state["page"] = 1
+        st.rerun()
