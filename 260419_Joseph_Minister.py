@@ -39,7 +39,7 @@ if st.session_state["page"] == 1:
     dept = st.text_input("부서명 (예: 소년부)", value=st.session_state["dept"])
     students = st.text_input("학생 명단", value=st.session_state["students"])
     
-    if st.button("다음"):
+    if st.button("활동 시작하기"):
         if church and dept and students:
             st.session_state["church"] = church
             st.session_state["dept"] = dept
@@ -100,8 +100,4 @@ else:
 
     if user_input := st.chat_input("인터뷰 질문을 입력하세요"):
         get_chatgpt_response(user_input)
-        st.rerun()
-
-    if st.button("이전"):
-        st.session_state["page"] = 1
         st.rerun()
